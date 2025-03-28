@@ -1,13 +1,14 @@
 LoadConsumable {
     key = "EyeOfTheUniverse",
     set = "Spectral",
-    img_path = "quantummoon.png",
+    img_path = "the_eye.png",
     loc_txt = {
         name = "Eye of the Universe",
         text = {
             "Destroy {C:attention}all jokers{}.",
-            "For each joker {C:attention}destroyed{C:attention},",
-            "create a random joker with rarity one level higher.",
+            "For each joker destroyed,",
+            "create a {C:attention}random joker{}",
+            "with rarity {C:attention}1{} level higher.",
         }
     },
     can_use = function(self, card)
