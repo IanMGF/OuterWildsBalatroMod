@@ -51,12 +51,8 @@ end
 
 function LoadEdition(edition_data)
     local data = {
-        shaders_obj = {
-            key = edition_data.key,
-            path = edition_data.shaders_path,
-        },
         key = edition_data.key,
-        shader = edition_data.key,
+        shader = edition_data.shader_obj.key,
     }
 
     for k, v in pairs(edition_data) do
@@ -64,7 +60,7 @@ function LoadEdition(edition_data)
     end
 
     SMODS.Shader(data.shader_obj)
-    SMODS.Consumable(data)
+    SMODS.Edition(data)
 end
 
 local mod_path = "" .. SMODS.current_mod.path
