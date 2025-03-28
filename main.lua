@@ -22,6 +22,8 @@ function LoadJoker(joker_data)
         data[k] = v
     end
 
+    data["unlocked"] = true
+
     SMODS.Atlas(data.atlas_obj)
     SMODS.Joker(data)
 end
@@ -41,6 +43,8 @@ function LoadConsumable(consumable_data)
         data[k] = v
     end
 
+    data["unlocked"] = true
+
     SMODS.Atlas(data.atlas_obj)
     SMODS.Consumable(data)
 end
@@ -56,11 +60,11 @@ for _, folder in ipairs(folders) do
     local files = NFS.getDirectoryItems(mod_path .. folder)
     for _, file in ipairs(files) do
         print("[OUTERWILDS] Loading file " .. file)
-    	local f, err = SMODS.load_file(folder .. "/" .. file)
-    	if err then
-    		error(err)
-    	end
-    	f()
+        local f, err = SMODS.load_file(folder .. "/" .. file)
+        if err then
+            error(err)
+        end
+        f()
     end
 end
 
