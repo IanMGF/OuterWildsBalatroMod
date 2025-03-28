@@ -49,11 +49,30 @@ function LoadConsumable(consumable_data)
     SMODS.Consumable(data)
 end
 
+function LoadEdition(edition_data)
+    local data = {
+        shaders_obj = {
+            key = edition_data.key,
+            path = edition_data.shaders_path,
+        },
+        key = edition_data.key,
+        shader = edition_data.key,
+    }
+
+    for k, v in pairs(edition_data) do
+        data[k] = v
+    end
+
+    SMODS.Shader(data.shader_obj)
+    SMODS.Consumable(data)
+end
+
 local mod_path = "" .. SMODS.current_mod.path
 
 local folders = {
     "items/jokers",
-    "items/planets"
+    "items/planets",
+    "items/editions",
 }
 
 for _, folder in ipairs(folders) do
