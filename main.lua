@@ -69,6 +69,7 @@ local folders = {
     "items/jokers",
     "items/planets",
     "items/editions",
+    "items/spectral",
 }
 
 for _, folder in ipairs(folders) do
