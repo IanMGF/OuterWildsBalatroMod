@@ -5,7 +5,7 @@ LoadJoker {
         name = "Nomai Mask",
         text = {
             "After playing {C:attention}#1# hands{},",
-            "Reduce {C:attention}Ante{} by {C:attention}1{}"
+            "Reduce {C:attention}Ante{} by {C:attention}#2#{}"
         }
     },
     rarity = 3,
@@ -13,12 +13,14 @@ LoadJoker {
     config = {
         extra = {
             hands_to_loop = 22,
+            ante_decrease = 1,
         }
     },
     loc_vars = function(self, info_queue, card)
         return {
             vars = {
-                card.ability.extra.hands_to_loop
+                card.ability.extra.hands_to_loop,
+                card.ability.extra.ante_decrease,
             }
         }
     end,
@@ -28,7 +30,7 @@ LoadJoker {
             if card.ability.extra.hands_to_loop <= 0 then
                 card.ability.extra.hands_to_loop = 22 --card.config.extra.hands_to_loop
 
-                ease_ante(G.GAME.round_resets.ante - 1)
+                ease_ante(-card.ability.extra.ante_decrease)
 
                 return {
                     message = "Looped!",
