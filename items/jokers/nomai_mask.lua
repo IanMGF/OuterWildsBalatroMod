@@ -4,6 +4,7 @@ LoadJoker {
     loc_txt = {
         name = "Nomai Mask",
         text = {
+            "{C:mult}+#3#{} Mult.",
             "After playing {C:attention}#1# hands{},",
             "Reduce {C:attention}Ante{} by {C:attention}#2#{}"
         }
@@ -11,6 +12,7 @@ LoadJoker {
     rarity = 3,
     blueprint_compat = true,
     config = {
+        mult = 4,
         extra = {
             hands_to_loop = 22,
             ante_decrease = 1,
@@ -21,6 +23,7 @@ LoadJoker {
             vars = {
                 card.ability.extra.hands_to_loop,
                 card.ability.extra.ante_decrease,
+                card.ability.mult,
             }
         }
     end,
@@ -28,7 +31,7 @@ LoadJoker {
         if context.before then
             card.ability.extra.hands_to_loop = card.ability.extra.hands_to_loop - 1
             if card.ability.extra.hands_to_loop <= 0 then
-                card.ability.extra.hands_to_loop = 22 --card.config.extra.hands_to_loop
+                card.ability.extra.hands_to_loop = 22
 
                 ease_ante(-card.ability.extra.ante_decrease)
 
@@ -39,8 +42,14 @@ LoadJoker {
             end
 
             return {
-                message = "-1",
+                message = "-" .. card.ability.extra.ante_decrease,
                 colour = G.C.FILTER
+            }
+        end
+
+        if context.joker_main then
+            return {
+                mult = card.ability.mult,
             }
         end
     end,
