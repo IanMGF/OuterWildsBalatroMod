@@ -7,21 +7,26 @@ LoadConsumable {
         text = {
             "Destroy {C:attention}all jokers{}.",
             "For each joker destroyed,",
-            "create a {C:attention}random joker{}",
+            "create a {C:attention}negative random joker{}",
             "with rarity {C:attention}1{} level higher.",
         }
     },
     can_use = function(self, card)
-        return true
+        return (#G.jokers.cards > 0)
     end,
 
     use = function(self, card, area, copier)
         local rarities = { }
+        local rarity_map = {
+            { poll_value = 0.7, is_legendary = false },
+            { poll_value = 0.95, is_legendary = false },
+            { poll_value = 1, is_legendary = false },
+            { poll_value = 1, is_legendary = true },
+        }
 
         for i = 1, #G.jokers.cards, 1 do
             local destroyed_joker = G.jokers.cards[i]
-            local rarity = destroyed_joker.config.center.rarity
-            rarities[i] = rarity
+            rarities[i] = destroyed_joker.config.center.rarity
 
             G.E_MANAGER:add_event(Event({
                 trigger = "before",
@@ -40,26 +45,18 @@ LoadConsumable {
 			func = function()
     			for i = 1, #rarities, 1 do
                     local rarity = rarities[i]
-                    local new_rarity_poll
-                    local is_legendary
-                    if rarity == 1 then
-                        new_rarity_poll = 0.95
-                        is_legendary = false
-                    elseif rarity == 2 then
-                        new_rarity_poll = 1
-                        is_legendary = false
-                    elseif rarity >= 3 then
-                        new_rarity_poll = 1
-                        is_legendary = true
-                    end
+                    local new_rarity = math.min(rarity + 1, 4)
+                    local new_rarity_data = rarity_map[new_rarity]
 
                     play_sound("generic1", 0.96 + math.random() * 0.08)
                     local new_joker = SMODS.create_card {
                         set = "Joker",
                         area = G.jokers,
-                        legendary = is_legendary,
-                        rarity = new_rarity_poll
+                        legendary = new_rarity_data.is_legendary,
+                        rarity = new_rarity_data.poll_value,
+                        edition = { negative = true }
                     }
+
                     new_joker:start_materialize({ HEX("4a54df") }, nil, 2.23)
                     new_joker:add_to_deck()
                     G.jokers:emplace(new_joker)
