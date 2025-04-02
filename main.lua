@@ -12,7 +12,7 @@ function LoadJoker(joker_data)
         atlas = joker_data.key,
         atlas_obj = {
             key = joker_data.key,
-            path = joker_data.img_path,
+            path = joker_data.img_path or "missing.png",
             px = 69,
             py = 93,
         }
@@ -33,7 +33,7 @@ function LoadConsumable(consumable_data)
         atlas = consumable_data.key,
         atlas_obj = {
             key = consumable_data.key,
-            path = consumable_data.img_path,
+            path = consumable_data.img_path or "missing.png",
             px = 63,
             py = 93,
         }
@@ -49,18 +49,22 @@ function LoadConsumable(consumable_data)
     SMODS.Consumable(data)
 end
 
-function LoadEdition(edition_data)
+function LoadEnhancement(enhanc)
     local data = {
-        key = edition_data.key,
-        shader = edition_data.shader_obj.key,
+        atlas = enhanc.key,
+        atlas_obj = {
+            key = enhanc.key,
+            path = enhanc.img_path or "missing.png",
+            px = 69,
+            py = 93,
+        }
     }
-
-    for k, v in pairs(edition_data) do
+    for k, v in pairs(enhanc) do
         data[k] = v
     end
 
-    SMODS.Shader(data.shader_obj)
-    SMODS.Edition(data)
+    SMODS.Atlas(data.atlas_obj)
+    SMODS.Enhancement(data)
 end
 
 local mod_path = "" .. SMODS.current_mod.path
@@ -70,6 +74,8 @@ local folders = {
     "items/planets",
     "items/editions",
     "items/spectral",
+    "items/hands",
+    "items/enhancements",
 }
 
 for _, folder in ipairs(folders) do
