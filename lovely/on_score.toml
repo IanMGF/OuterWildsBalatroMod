@@ -11,7 +11,7 @@ position = "before"
 payload = '''
 
 for i=1, #G.jokers.cards do
-    local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, on_score = true, score = hand_chips*mult })
+    local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, on_score = true, get_score = function() return hand_chips*mult end })
     if effects.jokers then
         card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
         percent = percent + percent_delta
